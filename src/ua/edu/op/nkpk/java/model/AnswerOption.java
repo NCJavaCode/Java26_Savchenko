@@ -6,9 +6,9 @@ import java.util.Objects;
  * Клас описує сутність "Варіант відповіді".
  *
  * @author Савченко Ярослав
- * @version 1.1
+ * @version 1.2
  */
-public class AnswerOption {
+public class AnswerOption implements Cloneable {
 
     /** Номер варіанта відповіді */
     private int id;
@@ -20,11 +20,11 @@ public class AnswerOption {
     private boolean isCorrect;
 
     /**
-     * Конструктор варіанта відповіді.
+     * Основний конструктор.
      *
-     * @param id номер варіанта відповіді
+     * @param id номер відповіді
      * @param text текст відповіді
-     * @param isCorrect чи є відповідь правильною
+     * @param isCorrect ознака правильності
      */
     public AnswerOption(int id, String text, boolean isCorrect) {
         this.id = id;
@@ -33,41 +33,67 @@ public class AnswerOption {
     }
 
     /**
-     * Конструктор для сумісності з попереднім кодом.
+     * Конструктор без зазначення номера.
      *
      * @param text текст відповіді
-     * @param isCorrect чи є відповідь правильною
+     * @param isCorrect ознака правильності
      */
     public AnswerOption(String text, boolean isCorrect) {
         this(0, text, isCorrect);
     }
 
     /**
-     * @return номер варіанта відповіді
+     * Конструктор копіювання.
+     *
+     * @param original об'єкт, який потрібно скопіювати
      */
+    public AnswerOption(AnswerOption original) {
+        Objects.requireNonNull(original, "Оригінал не може бути null");
+
+        this.id = original.id;
+        this.text = original.text;
+        this.isCorrect = original.isCorrect;
+    }
+
+    /** @return номер відповіді */
     public int getId() {
         return id;
     }
 
-    /**
-     * @return текст відповіді
-     */
+    /** @return текст відповіді */
     public String getText() {
         return text;
     }
 
-    /**
-     * @return true, якщо відповідь правильна
-     */
+    /** @return ознака правильності */
     public boolean isCorrect() {
         return isCorrect;
     }
 
     /**
-     * Порівнює об'єкти за номером, текстом і правильністю.
+     * Створює копію об'єкта.
+     * Примітивні поля копіюються за значенням.
+     * String є незмінним, тому його можна безпечно
+     * використовувати спільно з оригіналом.
+     *
+     * @return копія варіанта відповіді
+     */
+    @Override
+    public AnswerOption clone() {
+        try {
+            return (AnswerOption) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(
+                    "Клас повинен підтримувати клонування", e
+            );
+        }
+    }
+
+    /**
+     * Порівнює об'єкти за значеннями полів.
      *
      * @param obj об'єкт для порівняння
-     * @return true, якщо значення всіх полів однакові
+     * @return true, якщо всі поля однакові
      */
     @Override
     public boolean equals(Object obj) {
@@ -87,9 +113,7 @@ public class AnswerOption {
     }
 
     /**
-     * Обчислює хеш-код за полями, використаними в equals().
-     *
-     * @return хеш-код об'єкта
+     * @return хеш-код за полями id, text та isCorrect
      */
     @Override
     public int hashCode() {

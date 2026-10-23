@@ -8,93 +8,55 @@ import ua.edu.op.nkpk.java.service.TestService;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("=== Порівняння об'єктів ===");
+        System.out.println("=== Клонування об'єктів ===");
 
-        AnswerOption answer1 = new AnswerOption(1, "int", true);
-        AnswerOption answer2 = new AnswerOption(1, "int", true);
-        AnswerOption answer3 = new AnswerOption(1, "int", true);
+        AnswerOption original =
+                new AnswerOption(1, "int", true);
 
-        AnswerOption differentId =
-                new AnswerOption(2, "int", true);
+        // Копіювання за допомогою clone()
+        AnswerOption cloned = original.clone();
 
-        AnswerOption differentCorrectness =
-                new AnswerOption(1, "int", false);
+        // Копіювання за допомогою конструктора
+        AnswerOption copied = new AnswerOption(original);
 
-        AnswerOption differentText =
-                new AnswerOption(1, "String", true);
+        System.out.println("\nПеревірка clone():");
 
-        // == порівнює посилання на об'єкти
         System.out.println(
-                "answer1 == answer2: " + (answer1 == answer2)
-        ); // false
-
-        // equals() порівнює значення полів
-        System.out.println(
-                "answer1.equals(answer2): " + answer1.equals(answer2)
+                "Окремий об'єкт: " + (cloned != original)
         ); // true
 
-        // Рефлексивність
         System.out.println(
-                "Рефлексивність: " + answer1.equals(answer1)
+                "Однаковий клас: "
+                        + (cloned.getClass() == original.getClass())
         ); // true
 
-        // Симетричність
         System.out.println(
-                "Симетричність: "
-                        + (answer1.equals(answer2)
-                        && answer2.equals(answer1))
+                "Однаковий вміст: " + cloned.equals(original)
         ); // true
 
-        // Транзитивність
-        System.out.println(
-                "Транзитивність: "
-                        + (answer1.equals(answer2)
-                        && answer2.equals(answer3)
-                        && answer1.equals(answer3))
-        ); // true
-
-        // Послідовність за незмінних полів
-        boolean firstResult = answer1.equals(answer2);
-
-        System.out.println(
-                "Послідовність: "
-                        + (firstResult == answer1.equals(answer2)
-                        && firstResult == answer1.equals(answer2))
-        ); // true
-
-        // Порівняння з null
-        System.out.println(
-                "Порівняння з null: " + answer1.equals(null)
-        ); // false
-
-        // Порівняння з об'єктом іншого класу
-        System.out.println(
-                "Порівняння з рядком: " + answer1.equals("int")
-        ); // false
-
-        // Перевірка впливу кожного поля
-        System.out.println(
-                "Інший номер: " + answer1.equals(differentId)
-        ); // false
-
-        System.out.println(
-                "Інша правильність: "
-                        + answer1.equals(differentCorrectness)
-        ); // false
-
-        System.out.println(
-                "Інший текст: " + answer1.equals(differentText)
-        ); // false
-
-        // Нерівність за вмістом
-        System.out.println(
-                "Об'єкти нерівні: " + !answer1.equals(differentId)
-        ); // true
-
-        // Рівні об'єкти повинні мати однакові хеш-коди
         System.out.println(
                 "Однакові хеш-коди: "
-                        + (answer1.hashCode() == answer2.hashCode())
+                        + (cloned.hashCode() == original.hashCode())
+        ); // true
+
+        System.out.println("\nПеревірка конструктора копіювання:");
+
+        System.out.println(
+                "Окремий об'єкт: " + (copied != original)
+        ); // true
+
+        System.out.println(
+                "Однаковий клас: "
+                        + (copied.getClass() == original.getClass())
+        ); // true
+
+        System.out.println(
+                "Однаковий вміст: " + copied.equals(original)
+        ); // true
+
+        System.out.println(
+                "Однакові хеш-коди: "
+                        + (copied.hashCode() == original.hashCode())
         ); // true
 
         System.out.println("\n=== Система проведення тестів ===");
@@ -105,7 +67,7 @@ public class Main {
                 "Який тип даних використовується для цілих чисел?"
         );
 
-        q1.addOption(new AnswerOption(1, "int", true));
+        q1.addOption(original.clone());
         q1.addOption(new AnswerOption(2, "String", false));
 
         Question q2 = new Question(
