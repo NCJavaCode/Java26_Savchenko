@@ -10,11 +10,12 @@ import java.util.Scanner;
 public class TestService {
 
     public void printTestInfo(Test test) {
-        // 1. Логічна операція (&&) та операція порівняння (!=)
-        // 2. Умовна конструкція if/else
+        // Логічна операція && та операція порівняння !=
         if (test != null && test.getQuestions() != null) {
             System.out.println("Тест: " + test.getTitle());
-            System.out.println("Кількість питань: " + test.getQuestions().size());
+            System.out.println(
+                    "Кількість питань: " + test.getQuestions().size()
+            );
         } else {
             System.out.println("Тест відсутній або порожній.");
         }
@@ -27,46 +28,55 @@ public class TestService {
 
         Scanner scanner = new Scanner(System.in);
         List<Question> questions = test.getQuestions();
+
         int correctAnswersCount = 0;
         int questionIndex = 0;
 
-        // 3. Цикл while
+        // Цикл while
         while (questionIndex < questions.size()) {
             Question q = questions.get(questionIndex);
-            System.out.println("\nПитання №" + (questionIndex + 1) + ": " + q.getText());
+
+            System.out.println(
+                    "\nПитання №" + (questionIndex + 1)
+                            + ": " + q.getText()
+            );
 
             List<AnswerOption> options = q.getOptions();
 
-            // 4. Цикл for
+            // Цикл for
             for (int i = 0; i < options.size(); i++) {
-                System.out.println((i + 1) + ". " + options.get(i).getText());
+                System.out.println(
+                        (i + 1) + ". " + options.get(i).getText()
+                );
             }
 
             System.out.print("Введіть номер вашої відповіді: ");
             int userChoice = scanner.nextInt();
 
             if (userChoice < 1 || userChoice > options.size()) {
-                System.out.println("Некоректний вибір! Варіант не зараховано.");
+                System.out.println(
+                        "Некоректний вибір! Варіант не зараховано."
+                );
             } else {
-                AnswerOption selectedOption = options.get(userChoice - 1);
+                AnswerOption selectedOption =
+                        options.get(userChoice - 1);
 
                 if (selectedOption.isCorrect()) {
                     System.out.println("Вірно!");
-                    // 5. Унарний арифметичний оператор (++)
                     correctAnswersCount++;
                 } else {
                     System.out.println("Невірно!");
                 }
             }
 
-            // Унарний оператор (++)
             questionIndex++;
         }
 
-        // 6. Бінарний арифметичний оператор (*)
-        int scorePercentage = (correctAnswersCount * 100) / questions.size();
+        int scorePercentage =
+                (correctAnswersCount * 100) / questions.size();
 
         int gradeCategory;
+
         if (scorePercentage >= 90) {
             gradeCategory = 5;
         } else if (scorePercentage >= 75) {
@@ -78,19 +88,30 @@ public class TestService {
         }
 
         System.out.println("\n=== РЕЗУЛЬТАТ ТЕСТУ ===");
-        // 7. Конструкція вибору switch
+
         switch (gradeCategory) {
             case 5:
-                System.out.println("Оцінка: Відмінно (" + scorePercentage + "%)");
+                System.out.println(
+                        "Оцінка: Відмінно (" + scorePercentage + "%)"
+                );
                 break;
+
             case 4:
-                System.out.println("Оцінка: Добре (" + scorePercentage + "%)");
+                System.out.println(
+                        "Оцінка: Добре (" + scorePercentage + "%)"
+                );
                 break;
+
             case 3:
-                System.out.println("Оцінка: Задовільно (" + scorePercentage + "%)");
+                System.out.println(
+                        "Оцінка: Задовільно (" + scorePercentage + "%)"
+                );
                 break;
+
             default:
-                System.out.println("Оцінка: Незадовільно (" + scorePercentage + "%)");
+                System.out.println(
+                        "Оцінка: Незадовільно (" + scorePercentage + "%)"
+                );
                 break;
         }
 

@@ -28,8 +28,6 @@ public class Test {
     }
 
     /**
-     * Повертає назву тесту.
-     *
      * @return назва тесту
      */
     public String getTitle() {
@@ -46,8 +44,6 @@ public class Test {
     }
 
     /**
-     * Повертає список питань.
-     *
      * @return список об'єктів Question
      */
     public List<Question> getQuestions() {

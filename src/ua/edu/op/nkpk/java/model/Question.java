@@ -28,8 +28,6 @@ public class Question {
     }
 
     /**
-     * Повертає текст питання.
-     *
      * @return текст питання
      */
     public String getText() {
@@ -46,9 +44,7 @@ public class Question {
     }
 
     /**
-     * Повертає варіанти відповідей.
-     *
-     * @return список варіантів
+     * @return список варіантів відповідей
      */
     public List<AnswerOption> getOptions() {
         return options;
