@@ -19,34 +19,27 @@ public class Main {
         AnswerOption copied = new AnswerOption(original);
 
         System.out.println("\nПеревірка clone():");
-
         System.out.println("Окремий об'єкт: "
                 + (cloned != original));
-
         System.out.println("Однаковий клас: "
                 + (cloned.getClass() == original.getClass()));
-
         System.out.println("Однаковий вміст: "
                 + cloned.equals(original));
-
         System.out.println("Однакові хеш-коди: "
                 + (cloned.hashCode() == original.hashCode()));
 
         System.out.println("\nПеревірка конструктора копіювання:");
-
         System.out.println("Окремий об'єкт: "
                 + (copied != original));
-
         System.out.println("Однаковий клас: "
                 + (copied.getClass() == original.getClass()));
-
         System.out.println("Однаковий вміст: "
                 + copied.equals(original));
-
         System.out.println("Однакові хеш-коди: "
                 + (copied.hashCode() == original.hashCode()));
 
-        System.out.println("\n=== Перевірка equals() і hashCode() ===");
+        // Перевірка equals() і hashCode()
+        System.out.println("\n=== Порівняння об'єктів ===");
 
         AnswerOption equalOption =
                 new AnswerOption(1, "int", true);
@@ -86,7 +79,7 @@ public class Main {
                 + (original.hashCode()
                 == equalOption.hashCode()));
 
-        // Практикум №7
+        // Глибоке клонування Question
         System.out.println("\n=== Глибоке клонування Question ===");
 
         Question questionOriginal =
@@ -98,10 +91,7 @@ public class Main {
         questionOriginal.addOption(
                 new AnswerOption(2, "Python", false));
 
-        // Клонування методом clone()
         Question questionClone = questionOriginal.clone();
-
-        // Клонування конструктором копіювання
         Question questionCopy = new Question(questionOriginal);
 
         System.out.println("clone(): новий об'єкт: "
@@ -136,6 +126,22 @@ public class Main {
         System.out.println("Зміна клона не змінила оригінал: "
                 + (questionOriginal.getOptions().size() == 2));
 
+        // ПРАКТИКУМ №8
+        System.out.println("\n=== Обробка виключних ситуацій ===");
+
+        // Завдання 1: ArrayIndexOutOfBoundsException
+        int[] scores = {5, 4, 3, 5};
+
+        showArrayElement(scores, 2);
+        showArrayElement(scores, 9);
+
+        // Завдання 2: NullPointerException
+        Question existingQuestion =
+                new Question("Що таке Java?");
+
+        showQuestionText(existingQuestion);
+        showQuestionText(null);
+
         // Основна система тестування
         System.out.println("\n=== Система проведення тестів ===");
 
@@ -145,18 +151,13 @@ public class Main {
                 "Який тип даних використовується для цілих чисел?");
 
         q1.addOption(original.clone());
-
-        q1.addOption(
-                new AnswerOption(2, "String", false));
+        q1.addOption(new AnswerOption(2, "String", false));
 
         Question q2 = new Question(
                 "Який оператор відповідає за умовний вибір?");
 
-        q2.addOption(
-                new AnswerOption(1, "for", false));
-
-        q2.addOption(
-                new AnswerOption(2, "if", true));
+        q2.addOption(new AnswerOption(1, "for", false));
+        q2.addOption(new AnswerOption(2, "if", true));
 
         javaTest.addQuestion(q1);
         javaTest.addQuestion(q2);
@@ -166,5 +167,35 @@ public class Main {
         testService.printTestInfo(javaTest);
         testService.runAndEvaluateTest(javaTest);
     }
+
+    // Обробка виходу за межі масиву
+    private static void showArrayElement(int[] values, int index) {
+        try {
+            System.out.println("Елемент масиву [" + index
+                    + "]: " + values[index]);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println(
+                    "Помилка ArrayIndexOutOfBoundsException: "
+                            + "допустимі індекси від 0 до "
+                            + (values.length - 1)
+                            + ", звернення до індексу " + index + "."
+            );
+        }
+    }
+
+    // Обробка звернення до null
+    private static void showQuestionText(Question question) {
+        try {
+            System.out.println(
+                    "Текст питання: " + question.getText()
+            );
+
+        } catch (NullPointerException e) {
+            System.err.println(
+                    "Помилка NullPointerException: "
+                            + "об'єкт класу Question відсутній (null)."
+            );
+        }
+    }
 }
-1
