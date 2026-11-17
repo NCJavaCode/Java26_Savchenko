@@ -1,52 +1,34 @@
+
 package ua.edu.op.nkpk.java.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * Клас описує сутність "Тест".
- *
- * @author Савченко Ярослав
- * @version 1.0
- */
-public class Test {
+public class Test extends TestItem {
 
-    /** Назва тесту */
-    private String title;
+    private final List<Question> questions;
 
-    /** Список питань у тесті */
-    private List<Question> questions;
-
-    /**
-     * Конструктор для створення тесту.
-     *
-     * @param title назва тесту
-     */
     public Test(String title) {
-        this.title = title;
+        super(title);
         this.questions = new ArrayList<>();
     }
 
-    /**
-     * @return назва тесту
-     */
     public String getTitle() {
-        return title;
+        return getName();
     }
 
-    /**
-     * Додає питання до тесту.
-     *
-     * @param question об'єкт питання
-     */
     public void addQuestion(Question question) {
-        this.questions.add(question);
+        questions.add(question);
     }
 
-    /**
-     * @return список об'єктів Question
-     */
     public List<Question> getQuestions() {
-        return questions;
+        return Collections.unmodifiableList(questions);
+    }
+
+    @Override
+    public String getInfo() {
+        return "Тест: " + getTitle()
+                + "; запитань: " + questions.size();
     }
 }

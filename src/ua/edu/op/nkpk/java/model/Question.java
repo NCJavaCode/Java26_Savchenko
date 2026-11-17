@@ -2,36 +2,35 @@
 package ua.edu.op.nkpk.java.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Question implements Cloneable {
+public class Question extends TestItem implements Cloneable {
 
-    private String text;
     private List<AnswerOption> options;
 
     public Question(String text) {
-        this.text = text;
+        super(text);
         this.options = new ArrayList<>();
     }
 
-    // Конструктор глибокого копіювання
     public Question(Question original) {
-        Objects.requireNonNull(original,
-                "Оригінал не може бути null");
-
-        this.text = original.text;
-        this.options = new ArrayList<>();
+        this(Objects.requireNonNull(
+                original, "Оригінал не може бути null"
+        ).getText());
 
         for (AnswerOption option : original.options) {
             this.options.add(
-                    option == null ? null : new AnswerOption(option)
+                    option == null
+                            ? null
+                            : new AnswerOption(option)
             );
         }
     }
 
     public String getText() {
-        return text;
+        return getName();
     }
 
     public void addOption(AnswerOption option) {
@@ -39,10 +38,15 @@ public class Question implements Cloneable {
     }
 
     public List<AnswerOption> getOptions() {
-        return options;
+        return Collections.unmodifiableList(options);
     }
 
-    // Глибоке клонування об'єкта
+    @Override
+    public String getInfo() {
+        return "Питання: " + getText()
+                + "; варіантів: " + options.size();
+    }
+
     @Override
     public Question clone() {
         try {
@@ -52,7 +56,9 @@ public class Question implements Cloneable {
 
             for (AnswerOption option : options) {
                 copy.options.add(
-                        option == null ? null : option.clone()
+                        option == null
+                                ? null
+                                : option.clone()
                 );
             }
 
