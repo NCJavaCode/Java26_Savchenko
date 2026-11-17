@@ -8,23 +8,38 @@ import ua.edu.op.nkpk.java.model.TestItem;
 
 public class OopDemo {
 
+    // Статичний поліморфізм: перевантаження методів
+    public static void showInfo(Question question) {
+        System.out.println("Питання: " + question.getText());
+    }
+
+    public static void showInfo(Test test) {
+        System.out.println("Тест: " + test.getTitle());
+    }
+
     public static void main(String[] args) {
 
-        Question question =
-                new Question("Що таке Java?");
+        Question question = new Question("Що таке Java?");
 
         question.addOption(
-                new AnswerOption(
-                        1, "Мова програмування", true
-                )
+                new AnswerOption(1, "Мова програмування", true)
+        );
+
+        question.addOption(
+                new AnswerOption(2, "Операційна система", false)
         );
 
         Test test = new Test("Основи Java");
         test.addQuestion(question);
 
-        System.out.println(
-                "=== Абстрагування та спадкування ==="
-        );
+        // Завдання 1. Статичний поліморфізм
+        System.out.println("=== Статичний поліморфізм ===");
+
+        showInfo(question);
+        showInfo(test);
+
+        // Завдання 2. Динамічний поліморфізм
+        System.out.println("\n=== Динамічний поліморфізм ===");
 
         TestItem[] items = {question, test};
 
@@ -32,6 +47,7 @@ public class OopDemo {
             System.out.println(item.getInfo());
         }
 
+        // Перевірка інкапсуляції
         System.out.println("\n=== Інкапсуляція ===");
 
         try {
@@ -39,8 +55,7 @@ public class OopDemo {
 
         } catch (UnsupportedOperationException e) {
             System.out.println(
-                    "Інкапсуляція працює: "
-                            + "пряме видалення заборонене."
+                    "Пряма зміна списку відповідей заборонена."
             );
         }
 
