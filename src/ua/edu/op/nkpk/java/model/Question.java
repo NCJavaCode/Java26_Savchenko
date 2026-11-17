@@ -6,8 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Question extends TestItem implements Cloneable {
+public class Question extends TestItem
+        implements Cloneable, Nameble, Printable {
 
+    private final String className = "Question";
     private List<AnswerOption> options;
 
     public Question(String text) {
@@ -42,6 +44,16 @@ public class Question extends TestItem implements Cloneable {
     }
 
     @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(getInfo());
+    }
+
+    @Override
     public String getInfo() {
         return "Питання: " + getText()
                 + "; варіантів: " + options.size();
@@ -51,7 +63,6 @@ public class Question extends TestItem implements Cloneable {
     public Question clone() {
         try {
             Question copy = (Question) super.clone();
-
             copy.options = new ArrayList<>();
 
             for (AnswerOption option : options) {

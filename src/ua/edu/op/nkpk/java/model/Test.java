@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Test extends TestItem {
+public class Test extends TestItem
+        implements Nameble, Printable {
 
+    private final String className = "Test";
     private final List<Question> questions;
 
     public Test(String title) {
@@ -24,6 +26,16 @@ public class Test extends TestItem {
 
     public List<Question> getQuestions() {
         return Collections.unmodifiableList(questions);
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(getInfo());
     }
 
     @Override
