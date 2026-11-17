@@ -1,52 +1,67 @@
+
 package ua.edu.op.nkpk.java.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-/**
- * Клас описує сутність "Тестове питання".
- *
- * @author Савченко Ярослав
- * @version 1.0
- */
-public class Question {
+public class Question implements Cloneable {
 
-    /** Текст питання */
     private String text;
-
-    /** Варіанти відповідей */
     private List<AnswerOption> options;
 
-    /**
-     * Конструктор створення питання.
-     *
-     * @param text текст питання
-     */
     public Question(String text) {
         this.text = text;
         this.options = new ArrayList<>();
     }
 
-    /**
-     * @return текст питання
-     */
+    // Конструктор глибокого копіювання
+    public Question(Question original) {
+        Objects.requireNonNull(original,
+                "Оригінал не може бути null");
+
+        this.text = original.text;
+        this.options = new ArrayList<>();
+
+        for (AnswerOption option : original.options) {
+            this.options.add(
+                    option == null ? null : new AnswerOption(option)
+            );
+        }
+    }
+
     public String getText() {
         return text;
     }
 
-    /**
-     * Додає варіант відповіді.
-     *
-     * @param option об'єкт варіанта відповіді
-     */
     public void addOption(AnswerOption option) {
-        this.options.add(option);
+        options.add(option);
     }
 
-    /**
-     * @return список варіантів відповідей
-     */
     public List<AnswerOption> getOptions() {
         return options;
+    }
+
+    // Глибоке клонування об'єкта
+    @Override
+    public Question clone() {
+        try {
+            Question copy = (Question) super.clone();
+
+            copy.options = new ArrayList<>();
+
+            for (AnswerOption option : options) {
+                copy.options.add(
+                        option == null ? null : option.clone()
+                );
+            }
+
+            return copy;
+
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(
+                    "Клонування недоступне", e
+            );
+        }
     }
 }
